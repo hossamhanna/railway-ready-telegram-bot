@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mahami
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - mahami_net
+
+  bot:
+    build: .
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+    networks:
+      - mahami_net
+
+volumes:
+  db_data:
+
+networks:
+  mahami_net:
